@@ -5,7 +5,7 @@ import React, { memo } from "react";
 function Task({ item, index }: any) {
   console.log("item: ", item);
   return (
-    <Draggable key={item.id} draggableId={`${item.ID}`} index={index}>
+    <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
       {(provided, snapshot) => {
         return (
           <div
@@ -24,11 +24,11 @@ function Task({ item, index }: any) {
             }}
           >
             <div className="conten-card">
-              <span>Title: {item.Title}</span>
+              <span>Title: {item.title}</span>
               <br />
-              <span>Description: {item.Description}</span>
+              <span>Description: {item.description}</span>
               <br />
-              <span>Status: {item.Status}</span>
+              <span>Status: {item.status}</span>
             </div>
           </div>
         );

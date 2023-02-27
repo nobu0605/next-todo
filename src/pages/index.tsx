@@ -10,22 +10,22 @@ export default function Home() {
   const status = {
     [uuid()]: {
       name: "Requested",
-      color: "#FFFAE6",
+      color: "white",
       items: [],
     },
     [uuid()]: {
       name: "To do",
-      color: "#EAE6FF",
+      color: "white",
       items: [],
     },
     [uuid()]: {
       name: "In Progress",
-      color: "#DEEBFF",
+      color: "white",
       items: [],
     },
     [uuid()]: {
       name: "Done",
-      color: "#E3FCEF",
+      color: "white",
       items: [],
     },
   };
@@ -39,22 +39,22 @@ export default function Home() {
         setColumns({
           [uuid()]: {
             name: "Requested",
-            color: "#FFFAE6",
+            color: "white",
             items: response.data,
           },
           [uuid()]: {
             name: "To do",
-            color: "#EAE6FF",
+            color: "white",
             items: [],
           },
           [uuid()]: {
             name: "In Progress",
-            color: "#DEEBFF",
+            color: "white",
             items: [],
           },
           [uuid()]: {
             name: "Done",
-            color: "#E3FCEF",
+            color: "white",
             items: [],
           },
         });
