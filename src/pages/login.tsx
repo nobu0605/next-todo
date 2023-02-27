@@ -1,97 +1,33 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Input, Accordion, Icon, CircularProgress } from "@mui/material";
 import axios from "axios";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
 import Loading from "@components/atoms/loading";
 import { mainColor, backGroundColor } from "@constants/colors";
 
-type OwnPros = {
-  language: string;
-};
-type Props = OwnPros;
-type State = {
-  loginInput: {
-    password: string;
-    email: string;
-    [key: string]: any;
-  };
-  loginError: string;
-  activeIndex: number;
-  isLoading: boolean;
-};
-
 export default function Login() {
-  const [res, setRes] = useState(false);
-  // constructor(props: Props) {
-  //   super(props);
-  //   this.state = {
-  //     loginInput: {
-  //       password: "",
-  //       email: "",
-  //     },
-  //     loginError: "",
-  //     activeIndex: 0,
-  //     isLoading: false,
-  //   };
-  //   this.handleSubmit = this.handleSubmit.bind(this);
-  //   this.handleChange = this.handleChange.bind(this);
-  //   this.handleClick = this.handleClick.bind(this);
-  // }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, accordionProps: any) => {
-  //   const { index } = accordionProps;
-  //   const { activeIndex } = this.state;
-  //   const newIndex = activeIndex === index ? -1 : index;
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-  //   this.setState({ activeIndex: newIndex });
-  // };
-
-  // handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-  //   const loginInput = { ...this.state.loginInput };
-  //   loginInput[e.target.name] = e.target.value;
-  //   this.setState({ loginInput });
-  // }
-
-  // handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-  //   this.setState({ isLoading: true });
-
-  //   axios
-  //     .post("/api/login", {
-  //       email: this.state.loginInput.email,
-  //       password: this.state.loginInput.password,
-  //     })
-  //     .then((response: any) => {
-  //       localStorage.setItem("token", response.data.token);
-  //       this.setState({ isLoading: false });
-  //       this.props.history.push("/home");
-  //     })
-  //     .catch((error: any) => {
-  //       this.setState({ isLoading: false });
-  //       if (error.response.status === 401) {
-  //         return this.setState({
-  //           loginError: this.props.intl.formatMessage({
-  //             id: "login.login401Error",
-  //             defaultMessage: "パスワードかメールアドレスが間違っています。",
-  //           }),
-  //         });
-  //       }
-  //       return this.setState({
-  //         loginError: this.props.intl.formatMessage({
-  //           id: "error.serverError",
-  //           defaultMessage: "何らかのエラーが発生しています。申し訳ありませんが時間を空けて再度お試し下さい。",
-  //         }),
-  //       });
-  //     });
-  // }
-
-  // const { activeIndex, loginError, isLoading } = this.state;
-
-  // if (isLoading === true) {
-  //   return <Loading isDataFetching={true} />;
-  // }
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_URL}`
+        // {
+        //   email,
+        //   password,
+        // }
+      )
+      .then((response: any) => {
+        console.log("response: ", response);
+      })
+      .catch((e: any) => {
+        console.error(e);
+      });
+  }
 
   return (
     <LoginWrapper>
@@ -100,9 +36,7 @@ export default function Login() {
           <ServiceName>Todo app</ServiceName>
           <LoginTitle>ログイン</LoginTitle>
           <br />
-          <form
-          // onSubmit={this.handleSubmit}
-          >
+          <form onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}>
             <div
               style={{
                 display: "flex",
@@ -115,17 +49,17 @@ export default function Login() {
                 name="email"
                 type="email"
                 placeholder="E-mail address"
-                // onChange={(e: any) => this.handleChange(e)}
+                sx={{ width: "250px" }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               />
               <Input
                 name="password"
                 type="password"
                 placeholder="Password"
-                // onChange={(e) => this.handleChange(e)}
-                style={{ marginTop: "15px" }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                sx={{ width: "250px", marginTop: "15px" }}
               />
-              {/* {loginError && <span style={{ color: "red", marginTop: "10px" }}>{loginError}</span>} */}
-              <Button type="submit" style={{ color: "black", marginTop: "25px" }} size="large">
+              <Button variant="contained" type="submit" sx={{ marginTop: "25px" }} size="large">
                 送信
               </Button>
             </div>
@@ -157,7 +91,7 @@ const LoginTitle = styled.span`
 
 const LoginWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 800px;
   background: ${backGroundColor};
 `;
 

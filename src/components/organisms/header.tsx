@@ -18,7 +18,7 @@ export default function Template() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Todo app
           </Typography>
-          <Link href="/login">
+          <Link style={{ color: "white", textDecoration: "none" }} href="/login">
             <Button color="inherit">Login</Button>
           </Link>
         </Toolbar>
