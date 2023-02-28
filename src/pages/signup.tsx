@@ -1,39 +1,34 @@
-import { Button, Input, Accordion, Icon, CircularProgress } from "@mui/material";
+import { Button, Input } from "@mui/material";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
-import Loading from "@components/atoms/loading";
 import { mainColor, backGroundColor } from "@constants/colors";
 
-export default function Login() {
+export default function Signup() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_API_URL}/authenticate`,
-          {
-            email,
-            password,
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/signup`,
+        {
+          name,
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
           },
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          }
-        )
-        .then(() => {
-          router.push("/");
-        });
-    } catch (error: any) {
-      alert(error.response.data.message);
+        }
+      );
+    } catch (e: any) {
+      alert(e.response.data.message);
     }
   }
 
@@ -42,7 +37,7 @@ export default function Login() {
       <LoginContainer>
         <LoginSection>
           <ServiceName>Todo app</ServiceName>
-          <LoginTitle>ログイン</LoginTitle>
+          <LoginTitle>登録</LoginTitle>
           <br />
           <form onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}>
             <div
@@ -53,6 +48,13 @@ export default function Login() {
                 flexDirection: "column",
               }}
             >
+              <Input
+                name="name"
+                type="text"
+                placeholder="Name"
+                sx={{ width: "250px" }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+              />
               <Input
                 name="email"
                 type="email"
@@ -73,8 +75,8 @@ export default function Login() {
             </div>
           </form>
         </LoginSection>
-        <Link style={{ marginTop: "15px" }} href="/register">
-          登録がお済みでない方はこちら
+        <Link style={{ marginTop: "15px" }} href="/login">
+          既にアカウントをお持ちの方はこちら
         </Link>
       </LoginContainer>
     </LoginWrapper>
