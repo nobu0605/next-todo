@@ -1,4 +1,4 @@
-import { Button, Input, Accordion, Icon, CircularProgress } from "@mui/material";
+import { Button, Input } from "@mui/material";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
 import Loading from "@components/atoms/loading";
 import { mainColor, backGroundColor } from "@constants/colors";
+// import axios from "@utils/axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -29,7 +30,8 @@ export default function Login() {
             },
           }
         )
-        .then(() => {
+        .then((res: any) => {
+          localStorage.setItem("uuid", res.data.uuid);
           router.push("/");
         });
     } catch (error: any) {
@@ -73,7 +75,7 @@ export default function Login() {
             </div>
           </form>
         </LoginSection>
-        <Link style={{ marginTop: "15px" }} href="/register">
+        <Link style={{ marginTop: "15px" }} href="/signup">
           登録がお済みでない方はこちら
         </Link>
       </LoginContainer>

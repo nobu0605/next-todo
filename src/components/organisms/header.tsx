@@ -6,8 +6,14 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { useContext } from "react";
+import { AuthContext } from "@contexts/AuthContext";
 
 export default function Template() {
+  const { authState } = useContext(AuthContext);
+  const isSignedIn = authState ? true : false;
+  const user = authState.user;
+
   return (
     <Box sx={{ flexGrow: 1, margin: 0 }}>
       <AppBar position="static">
@@ -15,12 +21,16 @@ export default function Template() {
           <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Todo app
           </Typography>
-          <Link style={{ color: "white", textDecoration: "none" }} href="/login">
-            <Button color="inherit">Login</Button>
-          </Link>
+          {isSignedIn ? (
+            <Typography variant="h6">{user?.name}</Typography>
+          ) : (
+            <Link style={{ color: "white", textDecoration: "none" }} href="/login">
+              <Button color="inherit">Login</Button>
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

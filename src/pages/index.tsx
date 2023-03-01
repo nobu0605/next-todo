@@ -1,10 +1,11 @@
 import { DragDropContext } from "@hello-pangea/dnd";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { v4 as uuid } from "uuid";
+import { AuthContext } from "../contexts/AuthContext";
 import Loading from "@components/atoms/loading";
 import Column from "@components/organisms/column";
 import Template from "@components/templates/template";
+import axios from "@utils/axios";
 
 export default function Home() {
   const status = {
@@ -34,7 +35,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}`)
+      .get(`/`)
       .then((response: any) => {
         setColumns({
           [uuid()]: {
@@ -61,7 +62,7 @@ export default function Home() {
         setIsLoading(false);
       })
       .catch(() => {
-        console.log("hoge");
+        console.log();
       });
   }, []);
 
