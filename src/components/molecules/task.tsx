@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import React, { memo } from "react";
 
 function Task({ item, index }: any) {
-  console.log("item: ", item);
   return (
     <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
       {(provided, snapshot) => {
@@ -17,8 +16,8 @@ function Task({ item, index }: any) {
               padding: 16,
               margin: "0 0 8px 0",
               minHeight: "50px",
-              backgroundColor: snapshot.isDragging ? "#263B4A" : "#456C86",
-              color: "white",
+              backgroundColor: "white",
+              color: "black",
               borderRadius: "4px",
               ...provided.draggableProps.style,
             }}

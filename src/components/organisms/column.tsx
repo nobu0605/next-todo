@@ -5,7 +5,6 @@ import React, { memo } from "react";
 const Task = dynamic(() => import("@components/molecules/task"), { ssr: false });
 
 const Column = ({ droppableId, column }: any) => {
-  console.log("column?.items: ", column?.items);
   return (
     <Droppable droppableId={droppableId} key={droppableId}>
       {(provided, snapshot) => {
@@ -14,11 +13,11 @@ const Column = ({ droppableId, column }: any) => {
             {...provided.droppableProps}
             ref={provided.innerRef}
             style={{
-              background: snapshot.isDraggingOver ? "lightblue" : column.color,
+              background: snapshot.isDraggingOver ? "lightblue" : "#D8D8D8",
               padding: 4,
               width: 250,
               minHeight: 500,
-              border: "2px dashed #ccc",
+              border: "2px solid #ccc",
               borderRadius: "4px",
             }}
           >
