@@ -8,7 +8,6 @@ axiosSetting.interceptors.request.use(
     const uuid = localStorage.getItem("uuid");
 
     config.headers["Authorization"] = uuid ? uuid : "none";
-    config.headers["Content-Type"] = "application/x-www-form-urlencoded";
     return config;
   },
   function (error) {

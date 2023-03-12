@@ -3,9 +3,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { TextField, Button, InputLabel, FormControl, Select, MenuItem } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useContext } from "react";
+import { useForm, Controller } from "react-hook-form";
 import styled from "styled-components";
+import { AuthContext } from "@contexts/AuthContext";
+import axios from "@utils/axios";
 import { createCardValidation } from "@utils/validation";
 
 interface IOption {
@@ -13,30 +15,53 @@ interface IOption {
   name: string;
 }
 
-export default function CreateCard({ options }: any) {
+interface IProps {
+  options: IOption[];
+  statusId: number;
+  getTodos: () => any;
+}
+
+export default function CreateCard({ options, statusId, getTodos }: IProps) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [age, setAge] = useState("");
+  const { authState } = useContext(AuthContext);
 
-  const handleChange = (event: any) => {
-    setAge(event.target.value as string);
-  };
-
-  console.log("options: ", options);
+  console.log("statusId: ", statusId);
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
+    control,
+    reset,
   } = useForm({
     resolver: yupResolver(createCardValidation),
     defaultValues: {
       title: "",
       description: "",
-      status_id: "",
+      status_id: statusId,
+      user_id: authState?.user?.id,
     },
   });
+
+  const createCard = async () => {
+    const values = getValues();
+
+    console.log("values: ", values);
+    await axios
+      .post(`/createTodo`, {
+        ...values,
+      })
+      .then(async (response: any) => {
+        handleClose();
+        await getTodos();
+        reset();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
   const items = options.map((option: IOption) => (
     <MenuItem value={option.id} key={option.id}>
@@ -68,25 +93,32 @@ export default function CreateCard({ options }: any) {
           <TextField
             sx={{ mb: 2 }}
             {...register("title")}
-            label={"タイトルを入力"}
-            // error={!!errors[form.name]}
-            // helperText={errors[form.name] && errors[form.name]?.message}
+            label={"title"}
+            error={!!errors["title"]}
+            helperText={errors["title"] && errors["title"]?.message}
           />
           <TextField
             sx={{ mb: 2 }}
             {...register("description")}
-            label={"説明を入力"}
-            // error={!!errors[form.name]}
-            // helperText={errors[form.name] && errors[form.name]?.message}
+            label={"description"}
+            error={!!errors["description"]}
+            helperText={errors["description"] && errors["description"]?.message}
           />
-
-          <FormControl sx={{ mb: 2 }} fullWidth>
-            <InputLabel id="demo-simple-select-label">ステータスを入力</InputLabel>
-            <Select {...register("status_id")} onChange={(e: any) => handleChange(e)}>
-              {items}
-            </Select>
-          </FormControl>
-          <Button sx={{ background: "#1976d2", color: "white" }}>登録</Button>
+          <Controller
+            control={control}
+            name="status_id"
+            render={({ field: { onChange, value } }) => (
+              <FormControl sx={{ mb: 2 }} fullWidth>
+                <InputLabel>status</InputLabel>
+                <Select value={value || ""} onChange={onChange}>
+                  {items}
+                </Select>
+              </FormControl>
+            )}
+          />
+          <Button onClick={handleSubmit(createCard)} sx={{ background: "#1976d2", color: "white" }}>
+            Add Card
+          </Button>
         </Box>
       </Modal>
     </>

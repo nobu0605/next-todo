@@ -26,8 +26,6 @@ function Task({ item, index }: any) {
               <span>Title: {item.title}</span>
               <br />
               <span>Description: {item.description}</span>
-              <br />
-              <span>Status: {item.status}</span>
             </div>
           </div>
         );

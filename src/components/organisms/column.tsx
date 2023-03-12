@@ -21,7 +21,7 @@ const Column = ({ droppableId, column }: any) => {
               borderRadius: "4px",
             }}
           >
-            {column?.items?.map((item: any, index: number) => {
+            {column?.todos?.map((item: any, index: number) => {
               return <Task key={item.id} item={item} index={index} />;
             })}
             {provided.placeholder}
